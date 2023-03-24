@@ -1,0 +1,179 @@
+Introduction to Git and GitHub (Google)
+
+diff -u file1.txt file2.txt
+diff 111.txt 222.txt > file1.diff
+patch file1.txt < file1.diff
+
+Version Control System (VCS)
+Source Control Management (SCM)
+
+dnf install git
+git --version
+git help <command>
+
+git config --global user.name "Oleg"
+git config --global user.email "oleg0x@yandex.ru"
+git config -l
+git config --global credential.helper cache
+git config --global credential.helper 'cache --timeout <seconds>'
+
+mkdir Myproject
+cd Myproject
+git init
+ls -la
+
+Working tree (directory)			Contains the current state of the project
+Git directory (.git)				Contains the history of all files and changes
+Staging area (index)				Information about files and changes for the next commit
+
+Each file can be either tracked (part of a snapshot) or untracked (aren't a part).
+Full cycle of each tracked file: 
+1) modified, 
+2) staged (git-add),
+3) committed (git-commit).
+
+HEAD represents a current snapshot of the branch (bookmark).
+
+git add file.txt					Add the file to the staging area
+git add .							Add all files to the staging area
+git add *							Add all files to the staging area
+git add -p							Interactively choose hunks of patch
+
+git status							Show information about changes in the current branch
+
+git commit -m "Some message"		Commit previously added files
+git commit -a -m "Some message"		Stage all modified tracked files and commit
+git commit --amend -m "New msg"		Modify the last local commit and its message
+
+git log								Show commit logs
+git log -3							3 last commits
+git log -p		(Patch)				Commit logs with changes
+git log -3 -p						3 last commits with changes
+git log --stat						Some stat on changes in each commit
+git log --graph --oneline
+git log --graph --oneline --all
+git log --pretty=oneline --since='5 hours ago'
+git log --pretty=oneline --author=Oleg
+git log origin/master				Show current commits in the remote repo
+git log -p origin/master			Show current commits with changes in the remote repo
+git log --pretty=format:"%h %ad | %s%d [%an]" --graph --date=short
+
+git diff							View changes relative to the index (since last git-add)
+git diff file.txt					View changes in the file
+git diff --staged					Changes staged for the next commit
+
+git show							Changes in the last commit
+git show <CommitID>					Changes in the given commit
+
+git rm <file>						Delete a file and stage
+git mv old_name new_name			Rename a file and stage
+git commit -m "Delete and rename files"
+
+vim .gitignore
+.DS_Store
+*.zip
+*.o
+*.swp
+zzz
+git add .gitignore
+git commit -m "Add to gitignore"
+
+git checkout <file>					Restore the file before it is staged, outdated
+git checkout <commit>				Detach HEAD at <commit> and update the index and files in the working tree
+
+git restore  <file>					Restore the file before it is staged
+git restore "*.c"
+git restore .						Restore all files in the current directory
+git restore --staged <file>			Restore the file in the index (same as git-reset)
+git restore --staged --worktree <file>		 Restore both the index and the working tree
+
+git reset							Undo add (counterpart to git-add)
+git reset <file>					Remove the file from the staging area
+git reset --soft <commit>			Reset the head to the given commit
+git reset --mixed <commit>			Reset the index but not the working tree (by default)
+git reset --hard <commit>			Reset the index and working tree (use locally only)
+git reset --hard HEAD~3				Undo the last 3 commits in the index and working tree (use locally only)
+
+git commit --amend					Modify the last commit, e.g. using git-add (use for local commits)
+git commit --amend -m "New msg"		Modify the last commit and its message (use for local commits)
+
+git revert HEAD						Create a new commit with inverse changes (use for public commits)
+git revert HEAD~3					Revert the changes specified by the 4th last commit in HEAD and create a new commit with the reverted changes.
+git revert <commit>					Create a new commit with inverse changes (use for public commits)
+
+Branch is a pointer to a particular commit. 
+It represents an independent line of development in a project.
+git branch							List all local branches
+git branch -r						List remote branches currently tracking
+git branch -a						List both remote-tracking branches and local branches
+git branch <name>					Create a new branch
+git branch -d <name>				Delete the merged local branch
+git branch -D <name>				Forcibly delete the unmerged local branch
+
+git checkout						Show locally modified files and branch info
+git checkout <branch>				Switch to the other branch
+git checkout -b <branch>			Create a new branch and switch to it
+
+git switch <branch>					Switch to a specified branch
+git switch master					Switch to master branch
+git switch -c <new-branch>			Create a new branch (git-branch + git-switch)
+git switch -						Undo the last operation
+git switch -c <new-branch> <start-point>	Create a new branch from the given point
+
+git merge <branch>					Merge given branch into the current branch
+git merge --abort					Abort the merge and try to reconstruct the pre-merge state
+
+You must resolve this merge conflict with a new commit before you can merge these branches:
+
+  If you have questions, please
+  <<<<<<< HEAD
+  open an issue
+  =======							Divides your changes from the changes in the other branch
+  ask your question in IRC.
+  >>>>>>> other_branch
+
+git clone <url> <dir>				Clone remote to the dir
+
+git remote							Lists remote repos
+git remote -v						Show remote repos with aliases
+git remote show origin				Describes the remote repo
+git remote add -t <branch> <name> <URL>		Add the branch of the remote <name> for the repository at <URL>
+git remote update					Fetch from all remote branches
+
+git fetch							Download the commits from remote repo to the remote branches; then git-merge is needed
+git fetch origin					Update the remote-tracking branches; then git-merge is needed
+git fetch <url> <branch>			Fetch <branch> from the repository at <url>; then git-merge is needed
+
+git rebase <branch>					Move the current branch on top of the given branch; then git-merge is needed
+git rebase --continue				Use after resolving the conflict
+git rebase -i main					Interactive edit the list of commits before rebasing
+
+git pull							Fetch + merge
+git pull --rebase					Fetch + rebase (without unneeded merge commit)
+git pull origin <branch>			Merge into the current branch the remote <branch>
+
+git push							Push commits from your local repo to a remote repo
+git push -u origin <branch>			Use '-u' only once to initiate tracking, then use git-push
+git push origin <branch>			All next pushes to that branch
+git push origin HEAD				Push the current branch to the same name on the remote
+git push --delete origin <branch>	Delete the remote branch
+git push -d origin <branch>			Delete the remote branch
+git push -f							Force to push changes into the repo
+
+git daemon --verbose --export-all --base-path=.		Run git server (from the work directory)
+git daemon --verbose --export-all --base-path=. --enable=receive-pack		Enable push to the repo:
+
+git clone git://localhost/hello.git network_hello
+cd network_hello
+
+
+
+Recommendations:
+1. Having good commit messages is important.
+2. Always synchronize your branches before starting any work on your own.
+3. Avoid having very large changes that modify a lot of different things.
+4. When working on a big change, it makes sense to have a separate feature branch.
+5. Regularly merge changes made on the master branch back onto the feature branch.
+6. Have the latest version of the project in the master branch and a stable 
+version of the project on a separate branch.
+7. You shouldn't rebase changes that have been pushed to remote repos.
