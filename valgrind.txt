@@ -1,0 +1,41 @@
+Compile
+	g++ -std=c++20 -Wall -Wextra -O0 -g file.cpp
+
+Select a tool (memcheck, cachegrind, callgrind, helgrind, drd, massif, dhat, lackey, none, exp-bbv, etc.)
+	valgrind --tool=<toolname> [default: memcheck]
+
+Allows GDB to control and debug the program when it runs on Valgrind
+	valgrind --vgdb=<no|yes|full> [default: yes]
+
+Send all messages to the specified file
+	valgrind --log-file=<filename>
+
+Run the program under Memcheck
+	valgrind myprog arg1 arg2
+	valgrind --leak-check=yes ./myprog arg1 arg2
+
+Example 1.
+  ==19182== Invalid write of size 4
+  ==19182==    at 0x804838F: foo (example.c:6)
+  ==19182==    by 0x80483AB: main (example.c:11)
+  ==19182==  Address 0x1BA45050 is 0 bytes after a block of size 40 alloc'd
+  ==19182==    at 0x1B8FF5CD: malloc (vg_replace_malloc.c:130)
+  ==19182==    by 0x8048385: foo (example.c:5)
+  ==19182==    by 0x80483AB: main (example.c:11)
+
+Example 2.
+  ==19182== 40 bytes in 1 blocks are definitely lost in loss record 1 of 1
+  ==19182==    at 0x1B8FF5CD: malloc (vg_replace_malloc.c:130)
+  ==19182==    by 0x8048385: foo (a.c:5)
+  ==19182==    by 0x80483AB: main (a.c:11)
+
+There are several kinds of leaks; the two most important categories are:
+1) "definitely lost": your program is leaking memory -- fix it!
+2) "probably lost": your program is leaking memory, unless you're doing funny
+   things with pointers (such as moving them to point to the middle of a heap block).
+
+It's worth fixing errors in the order they are reported, as later errors can be
+caused by earlier errors.
+
+Memcheck can't detect out-of-range reads or writes to arrays that are allocated
+statically or on the stack.
