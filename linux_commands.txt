@@ -1,0 +1,664 @@
+man command							Показать документацию по command
+									1  Executable programs or shell commands
+									2  System calls
+									3  Library calls
+man 3 printf						Показать документацию по printf из раздела 3
+man -a printf						Показать документацию из всех разделов
+man -f who  or  whatis who			Найти все документы с who в названии
+man -k who  or  apropos who			Найти все документы с who в любом месте
+/pattern <Enter>					Искать pattern в тексте
+n									Перейти к след. найденному (next)
+man --help  or  man -h
+
+su							Войти под пользователем root (Switch User)
+su name						Войти под пользователем name
+
+sudo <command>				Выполнить команду под суперпользователем
+sudo !!						Выполнить предыдущую команду под суперпользователем
+
+info who					Показать GNU-документацию по who
+info -k who					Найти все документы с who в любом месте
+
+clear						Очистить терминал
+Ctrl+L						Прокрутить вниз для очистки терминала
+
+history							Показать список ранее введенных команд
+!!								Выполнить последнюю команду
+
+shutdown -h  or  halt  or  poweroff		Выключить компьютер
+shutdown -r  or  reboot					Перезагрузить компьютер
+
+do_smth < infile					Считать ввод stdin (0) из файла
+do_smth > outfile					Записать вывод stdout (1) в файл
+do_smth >> outfile					Дописать вывод stdout (1) в конец файла
+do_smth 2> errfile					Записать вывод stderr (2) в файл
+do_smth 1>> output.txt 2>> errorlog.txt
+do_smth > all-out-file 2>&1			Записать вывод stderr туда же, куда и вывод stdout
+do_smth >& all-out-file				Записать весь вывод в файл
+ls /tmp >& /dev/null				Перенаправить весь вывод в /dev/null
+
+date							Вывести или установить дату
+date -Ins						Вывести в формате 2022-11-03T10:04:15+03:00
+date +%F_%H-%M-%S				Вывести в формате 2023-11-25_21-30-10
+date '+%F %H-%M-%S'				Вывести в формате 2024-06-26 20-28-15
+uptime							Вывести тек. время, время работы системы и сред. нагрузку за 1, 5, 15 мин.
+
+pwd								Напечатать текущий (рабочий) каталог
+
+cd /home/Test					Перейти в каталог /home/Test
+cd ..							Перейти в родительский каталог
+cd ../..						Подняться на 2 уровня выше
+cd  or  cd $HOME  or  cd ~		Перейти в домашний каталог
+cd -							Перейти в предыдущий каталог
+
+pushd
+popd
+
+ls								Вывести содержимое тек. каталога
+ls -l							С доп. информацией
+ls -1							Вывести в один столбец
+ls -a							Вывести все содержимое (включая скрытые)
+ls -R							Вывести содержимое текущего каталога и всех подкаталогов
+ls | head -5					Вывести первые 5 эл-тов тек. каталога
+ls bo??64*						Wildcards
+ls abc[!1-4xy]					Не содержит символы 1, 2, 3, 4, x, y
+
+tree							Вывести дерево каталогов с файлами
+tree -d							Вывести только дерево каталогов
+
+mkdir Dir						Cоздать каталог Dir в текущем каталоге
+mkdir /home/Test				Cоздать каталог Test
+mkdir -p test/dir{000..100}		Cоздать каталоги c dir000 по dir100
+
+rmdir /home/Test				Удалить пустой каталог Test
+
+cp file /home/Test/				Скопировать файл в каталог
+cp ../file .					Скопировать файл из родительского каталога в текущий
+cp -r /opt/app /home/Test		Копировать весь каталог рекурсивно
+
+mv file new_file				Переименовать файл
+mv file1 /home/Test/file2		Переместить файл и переименовать
+
+rm file							Удалить файл
+rm -i *							Удалить все файлы в тек. каталоге с подтверждениями
+rm -rf /home/Test/				Удалить каталог и содержимое без вопросов
+
+rsync sourcefile destfile			Копировать только изменившиеся части файла
+rsync -r --dry-run path1 path2		Пробный запуск
+rsync -r path1 user@host:path2		Копировать на другой компьютер
+
+touch filename					Cоздать файл filename или изменить дату модиф.
+touch test/dir{000..100}/file-{A..Z}
+
+cat filename.txt				Вывести содержимое файла без прокрутки
+cat file1 file2 > newfile		Объединить 2 файла и записать в новый файл
+cat file >> existingfile		Дописать файл в конец существующего файла
+cat > myfile					Записывать строки в файл до нажатия Ctrl+D
+> first line
+> last line
+> Ctrl+D
+
+tac file						Вывести строки файла в обратном порядке
+tac file1 file2 > newfile
+
+head filename.txt				Вывести первые 10 строк файла
+head -5 filename.txt			Вывести первые 5 строк файла
+
+tail filename.txt				Вывести последние 10 строк файла
+tail -15 filename.txt			Вывести последние 15 строк файла
+tail -f filename.txt			Автоматич. мониторить последние строки файла
+
+more /usr/share/dict/words		Выводить содержимое большого файла по страницам
+less /usr/share/dict/words		Выводить содержимое большого файла по страницам
+
+echo line1 > myfile				Записать строку в новый файл
+echo line2 >> myfile			Добавить строку в существующий файл
+echo $VAR						Вывести переменную окружения
+echo The name is $VAR
+echo 'The cost is $5'			Выводить все символы как есть
+echo The cost is \$5			Вывести символ $ как есть
+echo $?							Показать код возврата последней команды
+
+diff file1.txt file2.txt			Сравнить два текстовых файла построчно
+diff -i file1.txt file2.txt			Игнорировать регистр
+diff -qr /usr/src/linux-4.9 /usr/src/linux-4.10		Сравнить два поддерева
+diff3 file1.txt file2.txt file3.txt 				Сравнить 3 файла
+diff -Nur oldfile newfile > patchfile				Сохранить патч
+patch oldfile patchfile				Применить патч к файлу
+patch -p1 < patchfile				Применить патч ко всему дереву каталогов
+
+file myfile						Показать тип файла myfile
+
+which vim						Узнать, где находится программа
+whereis vim						Узнать, где находится программа
+
+locate zip						Найти эл-т, содержащий строку в имени (ищет не все!)
+
+find /usr -name gcc					Искать начиная с каталога usr эл-ты, содержащие 'gcc'
+find /usr -type f -name gcc			Искать только обычные файлы
+find /usr -type d -name gcc			Искать только каталоги
+find -name "*.swp" -exec rm '{}' \;			Найти все swp-файлы и удалить их
+find -name "*.swp" -ok rm '{}' \;			Найти все swp-файлы и удалить их с подтверждением
+find /tmp -name temp_file -type f -print | xargs /bin/rm -f
+find . -type f -exec file '{}' \;
+find $HOME -mtime 0					Найти все эл-ты в домаш. кат., модиф. за последние 24 часа
+find / -ctime 3						Найти все эл-ты, созданные 3 дня назад
+find / -atime -3					Найти все эл-ты с доступом менее 3 дней
+find / -mtime +3					Найти все эл-ты, модиф. более 3 дней назад
+find / -cmin 60						Найти все эл-ты, cозданные 60 мин назад
+find / -amin -60					Найти все эл-ты с доступом менее 60 мин назад
+find / -mmin +60					Найти все эл-ты, модиф. более 60 мин назад
+find / -size -100c					Найти все эл-ты размера менее 100 байт
+find / -size +64k					Найти все эл-ты размера более 64 Кб
+find / -size +10M					Найти все эл-ты размера более 10 Мб
+find / -size +5G					Найти все эл-ты размера более 5 Гб
+find -type f -size 0				Найти в тек. кат. все файлы размера 0
+
+ln file file2				Создать hardlink на file
+ln -s file file3			Создать symlink на file
+
+time a.out						Показать время выполнения a.out (команда bash)
+/usr/bin/time -v a.out			Показать время выполнения a.out (утилита)
+
+kill -SIGKILL <pid>			Принудительно завершить процесс
+kill -9 <pid>				Принудительно завершить процесс
+
+updatedb &					Выполнить команду updatedb в фоновом режиме
+bg							Перевести последний процесс в фоновый режим
+fg							Перевести последний процесс в обычный режим
+Ctrl+Z						Остановить и перевести в фоновый режим
+jobs -l						Показать процессы, выполняющиеся в фоновом режиме
+
+ps							Показать процессы, запущенные из текущей оболочки
+ps -u oleg					Показать процессы пользователя oleg
+ps -ef						Показать все процессы (System V Style)
+ps -efL						Показать все потоки всех процессов (System V Style)
+ps aux						Показать все процессы с детализацией (BSD Style)
+ps axo pid,pcpu,pmem,comm | head -20
+
+pstree						Показать все процессы и потоки в форме дерева
+
+top							Показать все процессы с обновлением каждые 2 сек.
+top -u oleg					Показать процессы пользователя oleg
+top  затем  k				Завершить процесс (kill)
+top  затем  f				Войти в настройки
+top  затем  r				Изменить приоритет процесса (renice)
+
+free						Вывести информацию о памяти
+free -h						Вывести информацию о памяти в гигабайтах
+
+at 14:30 -f ./myscript.sh		Выполнить скрипт в указанный момент времени сегодня
+at 03:00 20.05.2023 -f ./myscript.sh	Выполнить скрипт в указанную дату (DD.MM.CCYY) и время
+at now + 2 days					Выполнить команду в заданный момент времени
+atq								Показать очередь (queue) отложенных задач
+atrm 3							Удалить (remove) отложенную задачу №3
+
+crontab -e							Открыть редактор для списка задач
+мин час день мес день_нед /path/to/executable
+* * * * * /usr/bin/serve			Запускать задачу каждую мин.
+0 * * * * /usr/bin/serve			Запускать задачу каждый час в 00 мин.
+@hourly /usr/bin/serve
+0 0 15 * * /usr/bin/serve			Запускать задачу 15 числа каждого мес.
+0 15 * * 2 /usr/bin/serve			Запускать во вторник в 15:00
+30 12 * * sun /usr/bin/serve		Запукать в воскресенье в 12:30
+10 08 10 06 * /home/command			Запускать 10.06. в 08:10
+@reboot /home/command				Запускать при каждой загрузке
+crontab -l							Показать список задач для тек. пользователя
+crontab -r							Удалить все задачи тек. пользователя
+
+sleep 10s				Пауза на 10 сек.
+sleep 5m				Пауза на 5 мин.
+sleep 2h				Пауза на 2 часа
+
+mount							Показать все монтированные системы
+mount /dev/sda3 /run/media/oleg/DATA
+umount /run/media/oleg/DATA		Размонтировать
+
+df						Показать информацию о всех монтированных системах
+df -Th					Показать информацию о всех монтированных системах
+df -i					Показать информацию об Inodes
+
+dd if=/dev/sda of=/dev/sdb		Скопировать sda в sdb
+dd if=/dev/sda of=sda.mbr bs=512 count=1
+
+gzip *							Сжать все файлы в текущем каталоге
+gzip -r dir						Сжать все файлы в каталоге dir и подкаталогах
+gunzip foo  или  gzip –d foo	Распаковать файл foo.gz
+
+bzip2 *							Сжать все файлы в текущем каталоге
+bunzip2 *.bz2  или  bzip2 -d *.bz2
+
+xz *							Сжать все файлы в текущем каталоге
+xz -d *.xz						Распаковать все файлы, сжатые xz
+
+zip arch.zip file1 file2		Сжать 2 файла
+zip -r backup.zip Dir			Сжать всё в текущем каталоге и поместить в backup.zip
+unzip backup.zip				Извлечь из архива backup.zip
+
+tar zcvf mydir.tar.gz  dir			Заархивировать и сжать gzip
+tar jcvf mydir.tar.bz2 dir			Заархивировать и сжать bz2
+tar Jcvf mydir.tar.xz  dir			Заархивировать и сжать xz
+tar --create --gzip --verbose --totals --file archive.tar.gz file1 file2
+tar xvf mydir.tar					Извлечь всё из mydir.tar и поместить в mydir/
+tar xvf mydir.tar.gz				Распаковать и извлечь всё из mydir.tar.gz и поместить в mydir/
+tar --extract --verbose --file archive.tar
+
+zcat, zless, zdiff, zgrep		Для gzip
+bzcat, bzless					Для bzip2
+xzcat, xzless					Для xz
+
+who						Узнать залогинившихся пользователей
+whoami					Узнать текущего пользователя
+id oleg					Узнать uid, gid, groups для пользователя oleg
+
+useradd name					Добавить пользователя
+userdel name					Удалить пользователя
+userdel -r oleg					Удалить пользователя и его домашний каталог /home/oleg
+
+groupadd newgroup				Создать группу
+groupdel newgroup				Удалить группу
+groups name						Узнать, каким группам принадлежит пользователь
+usermod -a -G newgroup name		Добавить пользователя в группу
+
+alias								Показать все псевдонимы
+alias ll='ls -l --color=auto'		Определить псевдоним
+
+set								Вывести переменные окружения
+env								Вывести переменные окружения
+export							Вывести переменные окружения
+echo $PATH						Вывести переменную окружения PATH
+echo $PS1						Вывести переменную с приглашением
+Edit ~/.bashrc and add VARIABLE=value	Добавить переменную постоянно
+
+chmod u=rwx,g=rx,o=rx file		user/owner (u), group (g), others (o)
+chmod uo+x,g-w somefile			user и others добавить выполнение, группе убрать запись
+chmod +x somefile 				Сделать файл исполняемым всеми пользователями
+chmod 754 somefile				4 - read, 2 - write, 1 - execute (7 - всё) для u,g,o
+
+chown root file					Изменить владельца файла
+chown owner:group file			Изменить владельца и группу файла
+chown -cR john:john dir			Изменить владельца и группу каталога рекурсивно
+
+chgrp newgroup file				Изменить группу файла
+chgrp -cR newgroup dir			Изменить группу всего каталога рекурсивно
+
+sort filename					Сортировать строки файла по возрастанию и вывести на экран
+sort -r -u filename				Сортировать в обратном порядке и вывести уникальные
+sort -k 3 filename				Сортировать строки файла по 3-му полю
+sort file1 file2 | uniq > file3
+uniq -c filename				Подсчитать кол-во одинаковых для каждой строки
+
+paste file1 file2				Объединить два файла построчно
+paste -d'|' file1 file2			Объединить с разделителем '|'
+join file1 file2				Объединить два файла построчно по общему полю
+split bigfile Prefix			Разделить большой файл на файлы по 1000 строк
+
+grep pattern filename			Вывести все строки файла, соответствующие паттерну
+grep -v pattern filename		Вывести все строки файла, не соответствующие паттерну
+grep -C 3 pattern filename		Выводитьй по 3 строки выше и ниже
+grep -F str filename			Рассматривать str как фикс. строку, а не regex
+grep -n User /etc/passwd		Вывести пользователя User в файле passwd и номер строки
+grep -i "user" /etc/passwd		Искать без учета регистра
+grep -r "str" /dir/				Искать во всех подкаталогах каталога /dir
+grep -w "Abc" filename			Искать отдельное слово Abc
+grep -c "Abc" filename			Показать кол-во слов Abc
+grep [0-9] filename				Вывести все строки, содержащие цифры
+
+sed 'command' filename							For filtering and transforming text
+sed -f scriptfile filename
+sed 's/pattern/replace_string/' file			Заменить только 1-е вхождение pattern на replace_string
+sed -e 's/01/JAN/' -e 's/02/FEB/'				Заменить 01, 02 на JAN, FEB соотв.
+sed 's/old/new/g' file1 > file2					Заменить все old на new и записать в новый файл
+sed -i s/pattern/replace_string/g file			Заменить все pattern на replace_string в самом файле (in-place)
+sed s/pattern/replace_string/g file1 > file2	Заменить все pattern на replace_string и записать в новый файл
+sed 3,8s/pattern/replace_string/g file			В диапазоне строк с 3 по 8
+sed 's./dir..' file								Разделитель '.', искать '/dir'
+
+awk ‘command’ var=value filename			Для генерирования различных отчетов
+awk -f scriptfile var=value filename
+awk '{ print $0 }' file.txt					Показать весь файл
+awk '{ print $2, $5 }' file.txt				Показать 2-й и 5-й столбцы, выделенные пробелом, через пробел
+awk -F':' '{ print $1, $7 }' /etc/passwd	Показать только 1-й и 7-й столбцы, выделенные by ':', каждой строки
+awk -F',' '{ print $1, $3, $4 }' file.txt	Показать 1-й, 3-й и 4-й столбцы, выделенные ',', через пробел
+
+tr '{}' '()' < infile > outfile				Заменить фиг. скобки на круглые
+cat filename | tr a-z A-Z					В файле заменить строчные буквы на заглавные
+tr a-z A-Z < filename1 > filename2
+echo "This is for testing" | tr [:space:] '\t'			Заменить пробелы на табуляцию
+echo "This   is   for    testing" | tr -s [:space:]		Заменить подряд идущие пробелы на один пробел
+echo "_Some_string_" | tr -d '_'						Удалить все символы '_' из строки
+echo "my username is 12345" | tr -cd [:digit:]			Удалить всё кроме цифр
+tr -s '\n' ' ' < file.txt					Объединить все строки файла в одну строку через пробел
+
+wc filename						Вывести кол-во строк, слов и символов в файле
+wc /var/log/*.log				Вывести по каждому файлу
+
+cut -d" " -f2 filename			Вывести 2-й столбец, выделенный пробелами, из файла
+
+tee								Читать из stdin и выводить в stdout
+ls -l | tee newfile				Вывести рез-т на экран и сохранить в файл
+
+ifconfig						Вывести информацию о всех сетевых интерфейсах (old)
+
+hostname						Вывести имя хоста
+hostname Comp					Задать новое имя хоста
+hostname -I						Вывести все сетевые адреса хоста
+
+route							Вывести таблицу маршрутизации (old)
+route add -net address			Добавить статический маршрут
+route del -net address			Удалить статический маршрут
+
+ip addr show					Вывести информацию о всех сетевых интерфейсах
+ip route show					Вывести информацию о маршруте
+ip route						Вывести таблицу маршрутизации
+ip route add					Добавить статический маршрут
+ip route del					Удалить статический маршрут
+
+ping 4.2.2.2					Посылать пакеты до нажатия Ctrl+C
+ping -c 5 4.2.2.2				Отправить 5 пакетов
+
+traceroute ya.ru				Вывести маршрут IP-пакета до заданного хоста
+traceroute -M icmp linuxfoundation.org		Для современных сетей
+mtr
+
+netstat							Вывести информацию о соединениях, маршрутах и т.д.
+netstat -tulpn
+ss								Вывести информацию по сокетам
+nmap							Сканирует открытые порты
+tcpdump							Показать сетевой трафик для анализа
+iptraf							Мониторить сетевой трафик
+sar -n DEV 1
+
+wget http://xyz.org/file				Загрузить файл из интернета
+wget -i urls.txt						Загрузить все URL, указанные в файле
+wget --http-user=name --http-password=password http://abc.net/filename.iso
+wget ‐‐user-agent=Firefox //losst.ru	Передать фальшивую информацию о браузере
+
+curl http://www.linuxfoundation.org					Вывести страницу на экран
+curl -o saved.txt http://www.mysite.com				Сохранить страницу в файл
+curl -O ftp://ftp.example.com/file[001-100].txt		Сохранить файлы с исходными именами
+curl -T filename.txt ftp://xyz.net/upload/			Отправка файлов на ftp-сервер
+
+ftp aristotle.learning.com			Подключиться к серверу
+get filename						Скачать файл
+
+telnet opennet.ru 22
+
+ssh user@remotesystem					Подключиться к удаленной системе
+ssh remotesystem mycommand				Выполнить команду на удаленной системе
+scp myfile <user@remotesystem>:/dir/	Скопировать файл на удаленную систему
+scp -r /dir user@losst.ru:/root/		Скопировать каталог на удаленную систему
+scp <user@xyz.ru>:/dir1/file /dir2/		Скопировать файл из удаленной системы
+scp -r <user@xyz.ru>:/dir /dir/			Скопировать каталог из удаленной системы
+
+cowsay message					Вывести корову с сообщением message
+uptime | cowsay -f tux			Вывести пингвина с сообщением из uptime
+
+bc								Калькулятор
+
+cat /etc/*-release				Узнать версию OS
+uname -a						Узнать версию ядра
+
+lscpu					Вывести информацию об архитектуре, процессоре, ядрах, кэшах и др.
+lsblk					Вывести информацию о блочных устройствах (размер, точка монтирования и др.)
+lsusb					Вывести список USB портов и подключенные к ним устройства
+lspci					Вывести информацию о шине и подключенных к ней устройствах
+lshw					Вывести подробную информацию о hardware
+
+iotop					Мониторить информацию о вводе-выводе
+iostat					Вывести информацию об использовании CPU и вводе-выводе
+sar						Вывести счетчики различных подсистем
+
+systemctl list-unit-files					Вывести все установленные в системе юниты
+systemctl list-unit-files --type service	Вывести все установленные в системе службы
+systemctl list-unit-files '*sql*'			Вывести все установленные в системе юниты, удовл. паттерну
+systemctl list-units						Вывести все загруженные в память юниты
+systemctl list-units --type service			Вывести все загруженные в память службы
+systemctl list-units --type service --state running		Вывести все загруженные и выполняющиеся службы
+systemctl list-units --type service --state failed		Вывести все загруженные и failed службы
+
+systemctl status pcscd				Вывести статус службы pcscd
+
+sudo systemctl start pcscd			Запустить службу pcscd
+sudo systemctl stop pcscd			Остановить службу pcscd
+sudo systemctl stop 'sql*'			Остановить службы, удовл. паттерну
+
+sudo systemctl enable pcscd			Включить запуск службы при загрузке системы
+sudo systemctl disable pcscd		Отключить запуск службы при загрузке системы
+
+sudo systemctl reload nginx			Перечитать конфигурацию службы
+sudo systemctl restart nginx		Перезагрузить службу
+sudo systemctl reload-or-restart nginx
+
+command1 && command2			Если command1 выполнена успешно, то выполняется command2
+command1 || command2			Если command1 завершилась ошибкой, то выполняется command2
+command1 | command2				Вывод command1 подается на вход command2
+command1 ; command2				Простое последовательное выполнение команд
+command1 & command2 &			Запустить две команды в фоновом режиме
+
+command1 | command2 | command3			Pipeline, '|' называется pipe symbol
+
+command1 && command2 || command3		Аналог If - Then - Else
+command1 || command2 || command3		Выполнить только 1-ю успешную команду
+
+bin		Бинарники с командами для обычных пользователей
+boot	Файлы для загрузки системы (ядра, GRAB, конфиги)
+dev		Специальные файлы устройств, напр., sda, null
+etc		Системные конфигурационные файлы
+home	Домашние каталоги всех пользователей
+lib		32-битные динамические библиотеки для программ из /bin и /sbin
+lib64	64-битные динамические библиотеки для программ из /bin и /sbin
+media	Монтирование USB, CD, DVD (ранее)
+mnt		Временно примонтированные файловые системы (ранее)
+opt		Опциональные пакеты и приложения, напр., Zoom
+proc	Псевдо файловая система, содержит инфо и системе, оборудовании и процессах
+root	Домашний каталог пользователя root
+run		Вместо /var/run/ для временных данных во время выполнения, включая /var/run/media/
+sbin	Бинарники с командами для root
+sys		Содержит информацию о системе и оборудовании
+tmp		Временные файлы
+usr		Относящиеся ко всем пользователям программы и данные
+var		Файлы, размер которых часто изменяется, напр., логи
+
+\ 								Indicate continuation on to the next line
+
+#!/bin/bash
+
+chmod +x hello.sh 				Сделать файл исполняемым всеми пользователями
+./hello.sh						и выполнить
+или
+bash hello.sh					Выполнить скрипт
+
+echo $?							Посмотреть возвращенный рез-т послед. команды (0 - успешно)
+
+MYCOLOR=green					Нет $ при присваивании значения переменной, без пробелов около '='
+echo $MYCOLOR					Префикс $ при использовании переменной
+
+echo "Number of arguments: $#"
+echo "Script name: $0"
+echo "First and second parameters: $1 $2"
+echo "All parameters: $*"
+
+echo "Enter your name:"
+read name						Interactive reading of a variable
+echo "The name is: $name"
+exit 0							By convention, success is returned as 0
+
+start=$(date +%s)
+sleep 5
+end=$(date +%s)
+echo "Time elapsed: $(expr $end - $start) seconds"
+
+read a b c d
+
+files=$(ls)						Сохранить рез-т команды 'ls' в переменную
+echo "Today is $(date)"			Рез-т команды 'date' передается в аргумент echo
+ls /lib/modules/$(uname -r)/	Рез-т команды 'uname -r' передается в аргумент ls
+
+export VAR=value				Сделать копию переменной доступной дочерним процессам
+или
+VAR=value ; export VAR
+export							Вывести все экспортированные переменные
+
+expr 10 / 2 + 3 \* 4 - 1		Вычисление выражения (устарело)
+echo $(expr 2 + 3)				Вычисление выражения (устарело)
+a=2; b=3; expr $a + $b
+let X=(2 + 3); echo $X			Вычисление выражения (устарело)
+X=$((1 + 2 * 3)); echo $X		Вычисление выражения
+
+if CONDITION; then STATEMENTS; fi		Сокращенная форма
+
+if [ CONDITION1 ]						Общая форма
+then
+	STATEMENTS
+elif [ CONDITION2 ]
+then
+	STATEMENTS
+else
+	STATEMENTS
+fi
+
+-e file 			Checks if the file exists.
+-d file 			Checks if the file is a directory.
+-f file 			Checks if the file is a regular file (i.e., not a symbolic link, device node, directory, etc.)
+-s file 			Checks if the file is of non-zero size.
+-g file 			Checks if the file has sgid set.
+-u file 			Checks if the file has suid set.
+-r file 			Checks if the file is readable.
+-w file 			Checks if the file is writable.
+-x file 			Checks if the file is executable.
+INT1 -eq INT2		INT1 is equal to INT2
+INT1 -ne INT2 		INT1 is not equal to INT2
+INT1 -gt INT2 		INT1 is greater than INT2
+INT1 -ge INT2 		INT1 is greater than or equal to INT2
+INT1 -lt INT2 		INT1 is less than INT2
+INT1 -le INT2 		INT1 is less than or equal to INT2
+See the full list: man 1 test
+
+string1 == string2
+string1 > string2
+myLen1=${#string1}
+
+STR="abcdefgh"
+echo ${STR:2:5}					Начиная со 2-го символа, взять 5 символов (cdefg)
+${string#*.}					Получить все символы после точки
+
+&& 				AND
+|| 				OR
+! 				NOT
+
+if test -f some_file; then		Используется test
+if [ -f some_file ]; then		Используются квадр. скобки
+
+if [ $? -ne 0 ]; then			Если послед. команда завершилась ошибкой
+	echo "Some error!"
+	exit 123
+fi
+
+if [ $# -eq 0 ]; then
+	echo "Usage: $0 <argument>"
+	exit 1
+fi
+
+if [[ $AGE -ge 20 ]] && [[ $AGE -lt 30 ]]; then
+	echo "You are in your 20s"
+elif [[ $AGE -ge 30 ]] && [[ $AGE -lt 40 ]]; then
+	echo "You are in your 30s"
+else
+	echo "Other age"
+fi
+
+case <expression> in
+	value1) commands ;;
+	value2) commands ;;
+	value3) commands ;;
+	*)      default_commands (or nothing) ;;
+esac
+
+case $MONTH in
+	1)  echo "January"  ;;
+	2)  echo "February" ;;
+	3)  echo "March"    ;;
+	...
+	12) echo "December" ;;
+	*)  echo "Error. No month matches: $month"
+
+while <condition_is_true>
+do
+	COMMANDS
+done
+
+until <condition_is_false>
+do
+	COMMANDS
+done
+
+for i in <list>
+do
+	COMMANDS
+done
+
+for i in {1..5}; do echo $i; done
+for i in 1 2 3 4 5; do echo $i; done
+i=1; while [ $i -le 5 ]; do echo $i; i=$(($i+1)); done
+i=1; until [ $i -eq 6 ]; do echo $i; i=$(($i+1)); done
+
+for fname in $(ls); do
+	echo $fname
+done
+
+func_name(parameters)
+{
+	STATEMENTS
+}
+
+func_name param1 param2			Вызов функции с двумя параметрами
+
+some_func()
+{
+	file=$1
+	if [ -f $file ]; then
+		echo -e "The file $file exists"
+	else
+		echo -e "The file $file does not exist"
+	fi
+}
+
+func1() {
+	echo "This message is from function 1"
+}
+func2() {
+	echo "This message is from function 2"
+}
+echo "Enter a number from 1 to 2:"
+read n
+func$n							Вызов соответствующей функции
+
+TEMPFILE=$(mktemp /tmp/tempfile.XXXXXXXX)		Создать файл со случ. именем
+TEMPDIR=$(mktemp -d /tmp/tempdir.XXXXXXXX)		Создать каталог со случ. именем
+
+ls -lR /tmp > /dev/null			Перенаправить stdout в /dev/null
+ls -lR /tmp &> /dev/null		Перенаправить весь вывод в /dev/null
+find /dir -type f 2> /dev/null	Перенаправить stderr в /dev/null
+
+echo $RANDOM					Вывести случайное число от 0 до 32767
+min=1; max=6
+NUM=$(expr $min + $RANDOM % $max)	Вывести случайное число от min до max
+
+dd if=/dev/urandom of=~/fname count=4 bs=1		Записать 4 случ. байта в файл
+dd if=/dev/random  of=~/fname count=4 bs=1
+od -An -i ~/fname								Вывести эти raw bytes на экран
+
+bash –x ./script_file			Выполнить скрипт в отладочном режиме
+
+set -x							Начало отладочного режима в скрипте
+...
+set +x							Конец отладочного режима в скрипте
+
+lp -n 10 fname					Распечатать 10 копий файла на принтере по умолчанию
+lp -d printer fname				Распечатать на заданном принтере
+program | lp					Распечатать вывод программы
+lpstat -p -d					Получить список доступных принтеров с их статусами
+lpstat -a						Получить статусы всех принтеров
+cancel job-id					Отменить задание
+lpmove job-id newprinter		Переместить задание на другой принтер
