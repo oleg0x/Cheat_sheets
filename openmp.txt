@@ -11,7 +11,7 @@ schedule(auto)
 #pragma omp parallel for reduction(op : var)
 #pragma omp parallel for reduction(+ : sum)
 Operators: +, -, *, min, max
-Initial values: 0 for +, 0 for -, 1 for *, largest pos num, most neg num
+Initial values: 0 for +, 0 for -, 1 for *, largest pos. num, most neg. num
 
 #pragma omp for nowait		// The opposite to a barrier
 #pragma omp master			// Only main thread without barrier
@@ -69,9 +69,11 @@ OMP_WAIT_POLICY				// ACTIVE or PASSIVE
 OMP_PROC_BIND				// TRUE or FALSE
 
 Variables shared among threads:
-- dynamic allocated
+- automatic vars outside parallel region
+- dynamically allocated
 - global
 - static
+
 
 Variables not shared among threads:
 - automatic vars in parallel region
