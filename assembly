@@ -1,3 +1,6 @@
+There are 4 elements to assembly syntax: labels, directives, instructions, and comments.
+
+
 ----- Sections -----
 
 	Fixed sized:
@@ -60,6 +63,26 @@ Heap											For variables that are allocated dynamically
 .ifndef symbol
 .else
 .endif
+
+
+----- Macros -----
+
+.macro <name> <args>							Begin the definition of a macro
+.endm											End the current macro definition
+.exitm											Usually used within .if or .ifdef directives
+\@												How many macros are executed
+
+.macro example_macro p1, p2=0
+example_macro 10, 20							Call the macro
+example_macro p1=10, p2=20						Call the macro
+
+.macro SHIFT a, b
+	.if \b < 0
+		asr \a, \a, #-\b
+	.else
+		lsl \a, \a, #\b
+	.endif
+.endm
 
 
 .include "file"
