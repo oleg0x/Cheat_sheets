@@ -1,0 +1,75 @@
+----- Sections -----
+
+	Fixed sized:
+.text											For executable instructions
+.data											For global variables and constants, which usually have labels.
+.rodata											For read-only data
+.bss											For global variables initialized to zero
+	Variable sized:
+Stack											For parameters of function calls, return addresses and local (automatic) variables
+Heap											For variables that are allocated dynamically
+
+.section <name>									Create other section; linker must be informed
+
+
+----- Allocating memory for static variables and constants -----
+
+.byte num1, ...
+.2byte num    .hword num    .short num
+.4byte num    .word num    .long num
+.8byte num    .quad num
+
+.ascii "string"
+.asciz "string"    .string "string"
+
+.float num    .single num
+.double num1, ...
+
+
+----- Aligning and filling -----
+
+.align num_bytes, fill, max_num
+.balign num, fill, max_num
+.balignw num, fill, max_num
+.balignl num, fill, max_num
+
+.skip size, fill								Emit size bytes, each of value fill
+.space size, fill								Emit size bytes, each of value fill
+
+
+----- Setting and manipulating symbols -----
+
+.equ symbol, expr								Set the value of symbol to expr
+.set symbol, expr								Set the value of symbol to expr
+.equiv symbol, expr								Sign an error if the symbol is already defined
+
+.global symbol                                  Make the symbol visible to the linker
+.globl symbol                                   Make the symbol visible to the linker
+
+.comm symbol, length                            All instances are merged into a single symbol
+
+.size name, expr                                Set the size associated with the name
+
+.type name, type_descr                          type_descr can be: %function, %gnu_indirect_function, %object, %tls_object, %common, or %notype
+
+
+----- Conditional assembly -----
+
+.if expr
+.ifdef symbol
+.ifndef symbol
+.else
+.endif
+
+
+.include "file"
+
+
+----- Typical function definition -----
+
+.type some_func, %function
+.global some_func
+some_func:
+    // The function code goes here
+.size some_func, (. - some_func)
+
