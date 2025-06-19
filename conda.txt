@@ -1,0 +1,59 @@
+# List all Conda environments
+conda env list
+
+# Create and activate a Conda environment
+conda create -n my_env python=3.9
+conda activate my_env
+
+# Install a package with Conda (preferable!)
+conda install numpy pandas matplotlib
+
+# Install a package with Pip (that are not available in Conda)
+pip install requests
+
+# Both numpy and requests is installed in my_env environment
+
+# List all packages in the environment, including those installed by Pip
+conda list
+
+# Add conda-forge as a channel in Conda configuration
+conda config --add channels conda-forge
+
+# Searches for available versions of a package across configured channels
+conda search PACKAGE_NAME
+
+#To use multiple GCC versions, create separate Conda environments for each version, as Conda doesn’t support multiple versions of the same package in one environment.
+conda create -n gcc_env gcc=13 python=3.9
+
+conda search gcc
+conda install gcc=14.2.0 gxx=14.2.0
+conda install -c conda-forge gcc=11
+
+# Check if a library is available in Conda or Conda-Forge
+conda search boost
+conda search -c conda-forge boost
+
+# Install a Library
+conda install boost=1.78.0
+conda install -c conda-forge boost
+
+# Update a specific package to the latest compatible version
+conda update PACKAGE_NAME
+
+# Uninstalls a specific package from the active environment
+conda remove PACKAGE_NAME
+
+# Remove unused packages and cached files to free up disk space
+conda clean --all
+
+# Deactivates the current environment
+conda deactivate
+
+# Delete the specified environment and all its packages
+conda env remove -n ENV_NAME
+
+# Update Conda to the latest version
+conda update conda
+
+# Display detailed information about Conda installation
+conda info
