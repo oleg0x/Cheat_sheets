@@ -1,0 +1,210 @@
+Optimization level.
+	-o<0|1|2|3>
+
+Produce debugging information in the operating system’s native format (stabs, 
+COFF, XCOFF, or DWARF). GDB can work with this debugging information.
+	-g
+
+Level 3 (-g3) includes extra information, such as all the macro definitions present in the program.
+	-g<0|1|2|3>
+
+Produce debugging information in DWARF format (if that is supported).
+Use an additional option (e.g., -g3) to change the debug level for DWARF.
+	-gdwarf
+
+Produce debugging information for use by GDB. This means to use the most expressive format available 
+(DWARF, stabs, or the native format if neither of those are supported), including GDB extensions if at all possible.
+	-ggdb
+
+Suggested:  g++ -std=c++20 -Wall -Wextra -O0 -ggdb file.cpp
+
+Specify the program name with an argument to GDB.
+	gdb <program>
+	gdb <program> -c <core_dump>
+	gdb <program> -pid <PID>
+
+List of classes of commands
+	help    h
+	h <class>
+	h <command>
+
+GDB TUI mode
+	tui enable
+	Ctrl+l		(refresh screen)
+
+Start the program under GDB.
+	run    r
+	run <params>
+
+Attach to a running process - one that was started outside GDB.
+	attach <PID>
+
+Release the program from GDB control.
+	detach
+
+Set a breakpoint in the program
+	break    b
+	b <-offset|+offset>
+	b <func-name>
+	b <file-name>:<line-num>
+	tbreak args			(temporary breakpoint only for one stop)
+	rbreak hello.c:my_func*	
+	rbreak file:.
+	rbreak .
+	b <pos> if <cond>
+	b <pos> thread <TID>			(TID shown in the first column of the ‘info threads’ display)
+	b <pos> thread <TID> if <cond>
+	b file.c:123 thread 5 if x > y
+
+Use watchpoints to stop execution whenever the value of an expression changes, 
+without having to predict a particular place where this may happen.
+	watch <expr> [thread <TID>]
+
+Use catchpoints to cause the debugger to stop for certain kinds of program events, 
+such as C++ exceptions or the loading of a shared library.
+	catch <event>
+	catch throw [regexp]
+	catch syscall [name|number|group:groupname|g:groupname]
+	catch signal [signal…|all]
+
+Disable and enable breakpoints, watchpoints, and catchpoints.
+	enable [<breakpoints>]
+	disable [<breakpoints>]
+
+Eliminate  a breakpoint, watchpoint, or catchpoint once you no longer want the program to stop there.
+	clear <file-name>:<line-num>
+	clear <func-name>
+	delete [<breakpoint_numbers>]
+
+Resume the program execution until it completes normally or stops due to a breakpoint or a signal.
+	continue    c    fg
+	c [ignore-count]
+
+Continue running the program until control reaches a different source line (step-into). 
+	step    s
+	s <count>
+Execute one machine instruction, then stop and return to the debugger.
+	stepi [<count>]
+
+Continue to the next source line in the current stack frame. This is similar to step, 
+but function calls that appear within the line of code are executed without stopping (step-over).
+	next    n
+	n <count>
+Execute one machine instruction, but if it is a function call, proceed until the function returns.
+	nexti [<count>]
+
+Instruct GDB never to step into the specified function or all functions in a file.
+	skip <func-name>
+	skip -file <file-name>
+
+Continue running until just after function in the selected stack frame returns.
+	finish    fin
+
+Continue running until a source line past the current line, in the current stack frame, is reached. 
+When you reach the end of a loop after single stepping though it, 
+'until' makes your program continue execution until it exits the loop.
+'until' always stops your program if it attempts to exit the current stack frame.
+	until    u
+	u <-offset|+offset>
+	u <line-num>
+
+Show one line per frame, for many frames, starting with the currently executing frame 
+(frame 0), followed by its caller (frame 1), and on up the stack.
+	backtrace    bt    where    info stack
+Print only the outermost n frames, where n > 0.
+	bt -n
+Print the values of the local variables also.
+	bt -full
+
+Select a stack frame for examining the stack and other data in the program.
+	frame    f
+	f <num>
+	f function <func-name>
+Move n frames up|down the stack; by default n = 1.
+	up|down [<n>]
+
+Evaluate and print the value of an expression of the language your program is written in.
+	print    p    inspect
+	p <var>
+	p <expr>
+	p -pretty <on|off>
+	p/<f> <expr>
+
+Formats ('f' above):
+	x - hexadecimal
+	d - decimal
+	u - unsigned
+	o - octal
+	t - binary ('t' stands for 'two')
+	a - address
+	c - cast the value to an integer
+	f - floating point number
+	s - regard as a string, if possible
+	r - raw formatting
+
+Examine memory in any of several formats, independently of the program data types.
+	x    (stands for “eXamine”) 
+	x <addr>
+Set the repeat count (n), display format (f) and  unit size (u)
+	x/nfu <addr>
+	x/10uw 0x54320			(10 4-byte words as unsigned integers)
+
+Print information about different objects.
+	info    i
+	i break
+	i breakpoints
+	i watchpoints
+Display function arguments.
+	i args
+Display information about the local variables corresponding to the current stack frame.
+	i locals
+Display advanced information about a stack frame.
+	i frame [<frame-num>]
+Display information about all or specified threads.
+	i threads [<TID>]
+Display line address.
+	i line [<locspec>]
+
+Print (10 by default) lines from a source code.
+	list    l
+	l <line-num>
+	l <function>
+	l <file-name>:<line-num>
+	l <first>, <last>
+	l <-offset|+offset>
+
+Dump a range of memory as machine instructions.
+	disassemble    disas
+	disas start, end
+	disas start, +length
+
+Reversible Debugging
+	record
+	reverse-next    rn
+	reverse-step    rs
+	reverse-continue    rc
+
+GDB provides these facilities for debugging multi-thread programs:
+- automatic notification of new threads
+- ‘thread TID’, a command to switch among threads
+- ‘info threads’, a command to inquire about existing threads
+- ‘thread apply [thread-id-list | all] args’, a command to apply a command to a list of threads
+- thread-specific breakpoints
+- ‘set print thread-events’, which controls printing of messages on thread start and exit
+- ‘set libthread-db-search-path path’, which lets the user specify which libthread_db to use if the default choice isn’t compatible with the program.
+
+Whenever GDB takes control, one thread is always the focus of debugging (current thread). 
+GDB associates its own thread number with each thread of an inferior.
+In addition to a per-inferior number, each thread is also assigned a unique global thread ID.
+From GDB’s perspective, a process always has at least one thread (main thread).
+
+Make thread TID the current thread.  TID is shown in the first field of the ‘info threads’ display.
+	thread <TID>
+
+Apply the named command to one or more threads.
+	thread apply [<TIDs>|all] <command>
+
+Exit GDB
+	quit    q    
+	exit
+	Ctrl-d

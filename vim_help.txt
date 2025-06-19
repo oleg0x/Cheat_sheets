@@ -1,0 +1,138 @@
+:help или F1		Показать документацию
+:q					Выход из документации (Quit)
+
+:q!					Выход без сохранения
+:w					Записать файл, имеющий имя (Write)
+:w file_name		Записать файл под именем file_name
+:wq или ZZ			Записать файл и выйти (Write, Quit)
+
+h, j, k, l			Влево, вниз, верх, вправо
+0 или Home			Перейти в начало строки
+$ или End			Перейти в конец строки
+w					Перейти на начало следующего слова
+3w					Перейти на 3 слова вперед
+e					Перейти на конец текущего слова
+b					Перейти на начало предыдущего слова
+gg					Перейти в начало файла
+G					Перейти в конец файла
+Ctrl+G				Показать номер строки и процент
+100G				Перейти в строку с номером 100
+
+a				Перейти в режим вставки за курсором (Append)
+A				Перейти в режим вставки и в конец строки
+i				Перейти в режим вставки (Insert)
+I				Перейти в режим вставки и в начало строки
+o				Перейти в режим вставки и добавить строку ниже (Open [line])
+O				Перейти в режим вставки и добавить строку выше
+
+r				Заменить текущий символ (Replace)
+R				Перейти в режим замены
+
+x				Удалить символ
+
+dw				Удалить до след. слова (Delete Word)
+d3w				Удалить три слова
+de				Удалить тек. слово (Delete [to] End)
+d0				Удалить до начала строки
+d$				Удалить до конца строки
+dd				Удалить текущую строку
+3dd				Удалить 3 строки
+
+cw				Удалить текст от курсора до конца слова и перейти в режим вставки (Change Word)
+ce				Удалить текст от курсора до конца слова и перейти в режим вставки (Change End)
+c$				Удалить текст от курсора до конца строки и перейти в режим вставки
+C				Удалить текст от курсора до конца строки и перейти в режим вставки
+
+v 					Выделить фрагмент текста (Visual mode)
+Shift+v				Выделить строку
+Ctrl+v				Выделить прямоугольную область
+y					Копировать выделенное в буфер (Yank, or copy)
+yw					Копировать текущее слово в буфер
+yy					Копировать текущую строку в буфер
+d					Вырезать выделенное в буфер
+dw					Вырезать текущее слово в буфер
+dd					Вырезать текущую строку в буфер
+p					Вставить из буфера (Paste)
+P					Вставить из буфера
+:w file_name		Записать выделенное в файл file_name (write)
+:r file_name		Вставить текст из файла после текущей строки (retrieve)
+:r !ls				Вставить вывод команды ls после текущей строки	
+
+u				Отменить последнюю команду (undo)
+3u				Отменить 3 последних команды
+U				Отменить все команды в текущей строке
+Ctrl+R			Вернуть последнюю команду
+
+/str			Искать ниже строку "str"
+?str			Искать выше строку "str"
+n				Искать в том же направлении следующее вхождение "str"
+N				Искать в том же направлении предыдущее вхождение "str"
+Ctrl+O			Переместить курсор в предыдущую позицию
+Ctrl+I			Переместить курсор в следующую позицию
+
+%				Перейти к парной скобке (,),[,],{,}
+
+:set hlsearch
+*						Highlight all occurrences of the word under cursor
+
+:s/old/new/				Заменить только первое вхождение old на new
+:s/old/new/g			Заменить все вхождения old на new в текущей строке
+:10,20s/old/new/g		Заменить все вхождения в диапазоне строк 10-20
+:%s/old/new/g			Заменить все вхождения old на new в файле (globally)
+:%s/old/new/gc			Заменить все вхождения old на new в файле с подтверждениями
+
+guu				lowercase line
+gUU				uppercase line
+~				invert case of current character
+
+vim -p first.txt second.txt	Открыть файлы в разных табах
+:tabnew file_name			Открыть файл в новом табе
+:tabf pattern				Открыть файл по паттерну в новом табе
+:tabn и :tabp				Перейти на следующий и предыдущий таб
+gt и gT						Перейти на следующий и предыдущий таб
+:tabfirst и :tablast		Перейти на первый и последний таб
+:tabdo command				Выполнить команду над всеми табами
+
+:!ls					Выполнить команду ls
+:!gcc -std=c20 -Wall -Wextra -O3 filename.cpp && ./a.out
+:! Up, Up, ...			Искать команды по истории
+
+Ctrl+P        			Autocomplete
+
+:set tabstop=4
+:set shiftwidth=4
+:set smartindent
+:syntax on
+:set nowrap
+:set number
+
+:set ic					Ignore Case при поиске
+:set noic				No Ignore Case
+'is' 'incsearch'        show partial matches for a search phrase
+'hls' 'hlsearch'        highlight all matching phrases
+:set hls is				HlSearch and IncSearch
+
+Add all your preferred settings to "vimrc" file.
+vim ~/.vimrc
+
+:set mouse=a
+:set hlsearch
+:noh
+
+:set t_Co=256
+:set termguicolors
+
+:colorscheme [space] [Ctrl+d]
+:colorscheme Space Tab
+
+syntax on
+:colorscheme delek (or slate)
+:highlight Keyword ctermfg=blue
+:highlight String ctermfg=green
+:highlight Number ctermfg=yellow
+:highlight Comment ctermfg=darkgray
+
+:set paste			Перед вставкой
+:set nopaste		После вставки
+
+:h hex-editing
